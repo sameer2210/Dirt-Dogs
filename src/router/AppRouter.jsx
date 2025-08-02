@@ -13,7 +13,6 @@ const Quotes = lazy(() => import("../pages/Quotes"));
 const Financing = lazy(() => import("../pages/Financing"));
 const GivingBack = lazy(() => import("../pages/GivingBack"));
 const Login = lazy(() => import("../pages/Login"));
-const Register = lazy(() => import("../pages/Register"));
 const PageNotFound = lazy(() => import("../pages/PageNotFound"));
 
 const AppRouter = () => {
@@ -37,14 +36,6 @@ const AppRouter = () => {
           element={
             <PublicRoute>
               <Login />
-            </PublicRoute>
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <PublicRoute>
-              <Register />
             </PublicRoute>
           }
         />

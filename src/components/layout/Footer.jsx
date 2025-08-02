@@ -70,10 +70,18 @@ const Footer = () => {
           <div className="text-center md:text-right">
             <h4 className="text-gray-400 mb-4">We accept Credit Cards</h4>
             <div className="flex justify-center md:justify-end gap-4 mb-6">
-              {/* <img src={mastercard} alt="MasterCard" className="h-12" /> */}
-              {/* <img src={visa} alt="Visa" className="h-12" /> */}
-              {/* <img src={amex} alt="American Express" className="h-12" /> */}
-              {/* <img src={discover} alt="Discover" className="h-12" /> */}
+              <img
+                // src={mastercard}
+                alt="MasterCard" className="h-12" />
+              <img
+                // src={visa}
+                alt="Visa" className="h-12" />
+              <img
+                // src={amex}
+                alt="American Express" className="h-12" />
+              <img
+                // src={discover}
+                alt="Discover" className="h-12" />
             </div>
             <hr className="border-gray-700 mb-4" />
             <p className="text-gray-400 text-sm">
