@@ -7,7 +7,7 @@ const initialState = {
   error: null,
 };
 
-const productSlice = createSlice({
+const productReducer = createSlice({
   name: "product",
   initialState,
   reducers: {},
@@ -38,4 +38,4 @@ const productSlice = createSlice({
   },
 });
 
-export default productSlice.reducer;
+export default productReducer.reducer;
