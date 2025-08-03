@@ -3,7 +3,7 @@ import React from "react";
 
 const About = () => {
   return (
-    <div className="px-4 py-10 md:px-10 lg:px-20 max-w-screen-xl mx-auto">
+    <div className="px-4 py-4 mt-28 md:px-10 lg:px-20  max-w-screen-xl mx-auto">
       <h1 className="text-3xl md:text-4xl font-bold text-red-700 mb-6">
         About Dirt Dogs Excavating
       </h1>
@@ -12,8 +12,8 @@ const About = () => {
         {/* Left Side - Image & Contact */}
         <div className="lg:w-1/3">
           <img
-          //  src={aboutImg}
-           alt="About us" className="rounded shadow-md mb-6" />
+            //  src={aboutImg}
+            alt="About us" className="rounded shadow-md mb-6" />
           <div className="text-center lg:text-left">
             <h3 className="text-xl font-semibold mb-2">Garr Hughes</h3>
             <p>Dirt Dogs Excavating</p>

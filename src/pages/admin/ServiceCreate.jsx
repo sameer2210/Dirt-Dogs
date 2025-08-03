@@ -8,7 +8,7 @@ import Button from "../../components/common/Button";
 import ProductForm from "../../components/product/productForm";
 import { asynccreateproduct } from "../../store/actions/productAction";
 
-const ProductCreate = () => {
+const ServiceCreate = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.userReducer || {});
@@ -81,4 +81,4 @@ const ProductCreate = () => {
   );
 };
 
-export default ProductCreate;
+export default ServiceCreate;

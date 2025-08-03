@@ -2,12 +2,16 @@ import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const PrivateRoute = ({ children }) => {
-  const { user, loading } = useSelector((state) => state.auth); // adjust based on your auth state
+  const auth = useSelector((state) => state.user);
+
+  const user = auth?.currentUser;
+  const loading = auth?.loading;
 
   if (loading) {
-    return <div className="text-center py-10">Checking authentication...</div>;
+    return <div className="text-center text-4xl py-10">Checking authentication...</div>;
   }
-  return user ? children : <Navigate to="/login" replace />;
+
+  return user && user.userType === "Admin" ? children : <Navigate to="/login" replace />;
 };
 
 export default PrivateRoute;

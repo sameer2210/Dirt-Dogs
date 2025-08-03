@@ -1,36 +1,49 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchUser, updateUser } from "../actions/userThunks";
+import {
+  loginUser,
+  fetchCurrentUser,
+  updateUser,
+  logoutUser,
+} from "../actions/userThunks";
 
-const initialState = {
-  items: [],
-  loading: false,
-  error: null,
-};
+import { toast } from "react-toastify";
 
 const userSlice = createSlice({
   name: "user",
-  initialState,
-  reducers: {},
+  initialState: {
+    currentUser: null,
+    loading: false,
+    error: null,
+  },
+
   extraReducers: (builder) => {
     builder
-      // Fetch
-      .addCase(fetchUser.pending, (state) => {
+      .addCase(loginUser.pending, (state) => {
         state.loading = true;
       })
-      .addCase(fetchUser.fulfilled, (state, action) => {
+      .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = action.payload;
+        state.currentUser = action.payload;
       })
-      .addCase(fetchUser.rejected, (state, action) => {
+      .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload;
       })
 
-      // Create
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        state.currentUser = action.payload;
+      })
+
       .addCase(updateUser.fulfilled, (state, action) => {
-        state.items.push(action.payload);
+        state.currentUser = action.payload;
+        toast.success("User updated");
       })
 
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.currentUser = null;
+        state.loading = false;
+        toast.success("Logged out");
+      });
   },
 });
 

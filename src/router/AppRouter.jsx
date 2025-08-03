@@ -4,7 +4,7 @@ import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 import MainLayout from "../components/layout/MainLayout";
 
-// Lazy-loaded pages
+// Public Pages
 const Home = lazy(() => import("../pages/Home"));
 const About = lazy(() => import("../pages/About"));
 const Services = lazy(() => import("../pages/Services"));
@@ -15,11 +15,15 @@ const GivingBack = lazy(() => import("../pages/GivingBack"));
 const Login = lazy(() => import("../pages/Login"));
 const PageNotFound = lazy(() => import("../pages/PageNotFound"));
 
+// Admin Pages
+const AdminDashboard = lazy(() => import("../pages/admin/AdminDashboard"));
+const ServiceCreate = lazy(() => import("../pages/admin/ServiceCreate"));
+
 const AppRouter = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
-        {/* Main layout with all public pages inside */}
+        {/* Public Layout */}
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
@@ -30,17 +34,29 @@ const AppRouter = () => {
           <Route path="giving-back" element={<GivingBack />} />
         </Route>
 
-        {/* Public routes without MainLayout */}
+        {/* Public Route */}
+        <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+
+        {/* Private Routes WITHOUT nested layout */}
         <Route
-          path="/login"
+          path="/adminDashboard"
           element={
-            <PublicRoute>
-              <Login />
-            </PublicRoute>
+            <PrivateRoute>
+                <AdminDashboard />
+            </PrivateRoute>
           }
         />
 
-        {/* Catch all */}
+        <Route
+          path="/serviceCreate"
+          element={
+            <PrivateRoute>
+                <ServiceCreate />
+            </PrivateRoute>
+          }
+        />
+
+        {/* Catch All */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Suspense>

@@ -1,26 +1,43 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { LoginUser } from "../features/user/actions/userThunks";
+import { Eye, EyeOff } from "lucide-react";
 import { useForm } from "react-hook-form";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../features/user/actions/userThunks";
+
+import logo from "../assets/logo.png";
 import Button from "../components/common/items/Button";
 
 const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const SigninHandler = (user) => {
-    dispatch(LoginUser(user));
+    const updatedUser = {
+      ...user,
+      userType: "Admin",
+    };
+
+    dispatch(loginUser(updatedUser))
+      .unwrap()
+      .then(() => {
+        navigate("/adminDashboard");
+      })
+      .catch(() => {
+      });
   };
 
   return (
-    <div className="w-full min-h-screen flex items-center justify-center bg-[url('/images/excavator-bg.jpg')] bg-cover bg-center relative overflow-hidden">
+    <div className="w-full min-h-screen flex items-center justify-center overflow-hidden">
       <div className="flex w-full max-w-6xl bg-black/40 backdrop-blur-lg rounded-xl shadow-2xl overflow-hidden">
         {/* Left Side - Branding */}
         <div className="hidden lg:flex lg:w-1/2 p-12 flex-col justify-between relative text-white">
           <div>
             <div className="flex items-center mb-6">
-              <div className="w-10 h-10 bg-yellow-500 rounded-full mr-3"></div>
+              <img src={logo} className="w-30 h-30 rounded-full mr-3" alt="Dirt Dogs Logo" />
               <h1 className="text-4xl font-extrabold tracking-tight">Dirt Dogs</h1>
             </div>
             <h2 className="text-5xl font-bold leading-tight mb-4">
@@ -58,46 +75,42 @@ const Login = () => {
                   type="email"
                   required
                   placeholder="your@email.com"
-                  className="w-full px-4 py-3 rounded bg-white/10 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                  autoComplete="email"
+                  className="w-full px-4 py-3 rounded bg-white/10 border-b-2 border-white/40 text-white  focus:outline-none focus:ring-2 focus:ring-white"
                 />
               </div>
 
-              <div>
+              {/*  Password field with show/hide */}
+              <div className="relative">
                 <label className="block text-white text-sm font-medium mb-1">
                   Password
                 </label>
                 <input
                   {...register("password")}
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   required
                   placeholder="••••••••"
-                  className="w-full px-4 py-3 rounded bg-white/10 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                  autoComplete="current-password"
+                  className="w-full px-4 py-3 rounded bg-white/10 border-b-2 border-white/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute right-3 top-[42px] text-white/70 hover:text-white"
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
               </div>
 
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  id="terms"
-                  className="w-4 h-4 bg-white/10 border-white/20 rounded focus:ring-2 focus:ring-yellow-400"
-                />
-                <label htmlFor="terms" className="ml-2 text-sm text-white/80">
-                  I agree to the
-                  <a href="#" className="ml-1 text-yellow-400 underline">
-                    Terms of Service
-                  </a>
-                </label>
-              </div>
-
-              <Button type="submit" className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold">
-                Sign In
+              <Button type="submit" className="w-1/2 bg-red-500 text-white font-semibold">
+                Admin LogIn
               </Button>
             </form>
 
             <p className="text-white/60 text-center mt-6">
               Return to
-              <Link to="/" className="ml-1 text-yellow-400 hover:text-yellow-300 underline">
+              <Link to="/" className="ml-1 text-red-400 hover:text-red-300 underline">
                 Home
               </Link>
             </p>

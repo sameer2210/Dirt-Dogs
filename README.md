@@ -2,19 +2,26 @@ Redux Folder Structure
 
 src/
 ├── store/
-│   └── store.js                  # Configures Redux store and registers all reducers
+│   └── store.js                     # Registers both productReducer and userReducer
 ├── features/
-│   └── product/
+│   ├── product/
+│   │   ├── api/
+│   │   │   └── productAPI.js        # Axios functions for product-related backend calls
+│   │   ├── actions/
+│   │   │   └── productThunks.js     # createAsyncThunk-based async actions for products
+│   │   ├── reducers/
+│   │   │   └── productReducer.js    # Redux slice for product with initialState, reducers
+│   │   └── index.js                 # Re-exports productReducer and productThunks/actions
+│   └── user/
 │       ├── api/
-│       │   └── productAPI.js     # Contains Axios functions to call backend product APIs
+│       │   └── userAPI.js           # Axios functions for user-related backend calls
 │       ├── actions/
-│       │   └── productThunks.js  # Defines async Redux actions using createAsyncThunk
+│       │   └── userThunks.js        # createAsyncThunk-based async actions for user
 │       ├── reducers/
-│       │   └── productReducer.js # Contains Redux slice with initialState and reducers
-│       └── index.js              # Re-exports reducer and actions for easy imports
+│       │   └── userReducer.js       # Redux slice for user with initialState, reducers
+│       └── index.js                 # Re-exports userReducer and userThunks/actions
 ├── services/
-│   └── axiosInstance.js          # Configures Axios with baseURL and default settings
-
+│   └── axiosInstance.js             # Shared Axios instance for API calls
 
 
 

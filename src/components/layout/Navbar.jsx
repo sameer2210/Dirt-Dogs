@@ -192,7 +192,7 @@ const Navbar = () => {
           <Link to="/" className="flex-shrink-0 transition-transform duration-300 hover:scale-105">
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-red-500 to-red-700 rounded-xl flex items-center justify-center shadow-lg">
-                <img src={logo} alt="Logo" />
+                <img src={logo} className="w-20 h-12 rounded-full mr-3" alt="Dirt Dogs Logo" />
               </div>
               <div className="hidden sm:block">
                 <h1 className="text-lg sm:text-xl font-bold text-gray-800">Dirt Dogs</h1>
@@ -257,7 +257,7 @@ const Navbar = () => {
           <div className="flex items-center gap-2 sm:gap-4">
             {/* Profile Icon */}
             <Link
-              to="/admin-login"
+              to="/login"
               className="relative group p-1.5 sm:p-2 bg-gray-100 hover:bg-red-50 rounded-full transition-all duration-300 hover:shadow-lg"
             >
               <User

@@ -1,2 +1,4 @@
-export * from "./actions/userThunks";
-export { default as userReducer } from "./reducers/userReducer";
+import userReducer from "./reducers/userReducer";
+import * as userThunks from "./actions/userThunks";
+
+export { userReducer, userThunks };

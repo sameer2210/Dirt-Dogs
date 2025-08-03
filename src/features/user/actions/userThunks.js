@@ -1,50 +1,72 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getUserAPI, userUpdateAPI } from "../api/userAPI";
 import { toast } from "react-toastify";
-import axiosInstance from "../../../services/axiosInstance";
+import { loginUserAPI, getUserAPI, userUpdateAPI } from "../api/userAPI";
 
+// Login Admin User
+export const loginUser = createAsyncThunk(
+  "user/login",
+  async (credentials, { rejectWithValue }) => {
+    try {
+      const response = await loginUserAPI(credentials);
+      const user = response.data;
 
-
-export const asyncCurrentUser = () => async (dispatch) => {
-  try {
-    const user = JSON.parse(localStorage.getItem("user"));        //Converts the string back into a JavaScript object
-    if (user && user.email) {
-      dispatch(LoginUser(user));
-      console.log("Session restored for:", user.email);
-    } else {
-      console.warn("No user session found.");
-      toast.error("Please sign in to continue");
+      if (user.userType === "Admin") {
+        localStorage.setItem("user", JSON.stringify(user));
+        toast.success("Admin login successful");
+        return user;
+      } else {
+        toast.error("Unauthorized: Not an admin");
+        return rejectWithValue("Unauthorized");
+      }
+    } catch (error) {
+      toast.error("Login failed");
+      return rejectWithValue(error.response?.data?.message || error.message);
     }
-  } catch (error) {
-    console.error("Failed to restore session:", error);
-    toast.error("Session error. Please sign in again.");
   }
-};
+);
 
-export const LoginUser = (user) => async (dispatch) => {
-  try {
-    const { data } = await axiosInstance.get(`/users?email=${user.email}`); // Only get user by email (json-server)
-    const foundUser = data[0];
-
-    if (foundUser && foundUser.password === user.password) {
-      localStorage.setItem("user", JSON.stringify(foundUser)); // Save user to localStorage
-      dispatch(asyncCurrentUser());                              // Set user in redux
-      toast.success("Logged in successfully!");
-      console.log("Login success:", foundUser);
-    } else {
-      toast.error("Wrong email or password");
-      console.warn("Login failed: Invalid credentials");
+// Fetch current admin user
+export const fetchCurrentUser = createAsyncThunk(
+  "user/fetchCurrent",
+  async (_, { rejectWithValue }) => {
+    try {
+      const user = await getUserAPI();
+      return user;
+    } catch (error) {
+      toast.error("Failed to fetch admin");
+      return rejectWithValue(error.response?.data?.message || error.message);
     }
-  } catch (error) {
-    console.error("Login error userAction.jsx:", error);
-    toast.error("Something went wrong. Please try again.");
   }
-};
+);
 
-export const fetchUser = createAsyncThunk("user/fetch", async () => {
-  return await getUserAPI();
-});
+// Update admin profile
+export const updateUser = createAsyncThunk(
+  "user/update",
+  async (userData, { rejectWithValue }) => {
+    try {
+      const updated = await userUpdateAPI(userData);
+      localStorage.setItem("user", JSON.stringify(updated));
+      toast.success("Profile updated successfully");
+      return updated;
+    } catch (error) {
+      toast.error("Update failed");
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
 
-export const updateUser = createAsyncThunk("user/update", async (user) => {
-  return await userUpdateAPI(user);
-});
+// Logout admin user
+export const logoutUser = createAsyncThunk(
+  "user/logout",
+  async (_, { rejectWithValue }) => {
+    try {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      toast.success("Logged out successfully!");
+      return true;
+    } catch (error) {
+      toast.error("Something went wrong during logout");
+      return rejectWithValue(error.message);
+    }
+  }
+);

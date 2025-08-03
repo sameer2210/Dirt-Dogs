@@ -9,7 +9,7 @@ import { asyncAddtoCartProduct } from "../../store/actions/cartAction";
 import { asyncdeleteproduct, asyncupdateproduct } from "../../store/actions/productAction";
 import { Star, Plus, Minus, Heart, Truck, Shield, RotateCcw, ArrowLeft } from "lucide-react";
 
-const ProductDetails = () => {
+const ServiceDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
@@ -313,4 +313,4 @@ const ProductDetails = () => {
   );
 };
 
-export default ProductDetails;
+export default ServiceDetails;
