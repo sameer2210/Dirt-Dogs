@@ -32,29 +32,34 @@ const AppRouter = () => {
           <Route path="quotes" element={<Quotes />} />
           <Route path="financing" element={<Financing />} />
           <Route path="giving-back" element={<GivingBack />} />
+
+
+          {/* Public Route */}
+          <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+
+
+
+
+          {/* Private Routes WITHOUT nested layout */}
+          <Route
+            path="/adminDashboard"
+            element={
+              <PrivateRoute>
+                <AdminDashboard />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/serviceCreate"
+            element={
+              <PrivateRoute>
+                <ServiceCreate />
+              </PrivateRoute>
+            }
+          />
         </Route>
 
-        {/* Public Route */}
-        <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
-
-        {/* Private Routes WITHOUT nested layout */}
-        <Route
-          path="/adminDashboard"
-          element={
-            <PrivateRoute>
-                <AdminDashboard />
-            </PrivateRoute>
-          }
-        />
-
-        <Route
-          path="/serviceCreate"
-          element={
-            <PrivateRoute>
-                <ServiceCreate />
-            </PrivateRoute>
-          }
-        />
 
         {/* Catch All */}
         <Route path="*" element={<PageNotFound />} />

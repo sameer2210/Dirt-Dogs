@@ -38,7 +38,7 @@
 
 //   return (
 //     <header className="border-b bg-white flex items-center justify-between p-3 px-4 md:px-10">
-//       <img src={logo} alt="Logo" className="h-30 object-contain" />
+//       <img src={logo} className="w-30 h-30 rounded-full mr-3" alt="Dirt Dogs Logo" />
 
 //       <div className="flex flex-col justify-evenly gap-4">
 //         {/* Top Contact Row */}
@@ -107,15 +107,15 @@
 
 //---------------------------------------------------------------------------------------------------------------
 
-
-import logo from "../../assets/logo.png";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { Menu, X, User, Phone, Mail, FileText } from "lucide-react";
+import logo from "../../assets/logo.png";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -126,6 +126,18 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuOpen && !event.target.closest('.mobile-menu-container')) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [menuOpen]);
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -159,7 +171,7 @@ const Navbar = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 bg-transparent backdrop-blur-md border-b border-gray-200/50 shadow-lg transition-all duration-500 ease-in-out ${isScrolled ? 'py-2' : 'py-0'
+      className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b border-gray-200/50 shadow-lg transition-all duration-500 ease-in-out ${isScrolled ? 'py-2' : 'py-0'
         }`}
     >
       {/* Contact Info Bar - Hidden when scrolled */}
@@ -168,18 +180,18 @@ const Navbar = () => {
           }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 py-2 text-xs sm:text-sm text-gray-600">
-            <div className="flex items-center gap-2 hover:text-red-600 transition-colors duration-200">
-              <Phone size={14} className="text-red-500 sm:w-4 sm:h-4" />
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 lg:gap-6 py-2 text-xs sm:text-sm text-gray-600">
+            <div className="flex items-center gap-1 sm:gap-2 hover:text-red-600 transition-colors duration-200">
+              <Phone size={12} className="text-red-500 sm:w-4 sm:h-4" />
               <span className="font-medium">(303) 435-4774</span>
             </div>
-            <div className="flex items-center gap-2 hover:text-red-600 transition-colors duration-200">
-              <FileText size={14} className="text-red-500 sm:w-4 sm:h-4" />
+            <div className="flex items-center gap-1 sm:gap-2 hover:text-red-600 transition-colors duration-200">
+              <FileText size={12} className="text-red-500 sm:w-4 sm:h-4" />
               <span className="font-medium">(303) 646-5438</span>
             </div>
-            <div className="flex items-center gap-2 hover:text-red-600 transition-colors duration-200">
-              <Mail size={14} className="text-red-500 sm:w-4 sm:h-4" />
-              <span className="font-medium">garr@dirtdogsexcavating.com</span>
+            <div className="flex items-center gap-1 sm:gap-2 hover:text-red-600 transition-colors duration-200 max-w-full">
+              <Mail size={12} className="text-red-500 sm:w-4 sm:h-4 flex-shrink-0" />
+              <span className="font-medium truncate">garr@dirtdogsexcavating.com</span>
             </div>
           </div>
         </div>
@@ -192,7 +204,8 @@ const Navbar = () => {
           <Link to="/" className="flex-shrink-0 transition-transform duration-300 hover:scale-105">
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-red-500 to-red-700 rounded-xl flex items-center justify-center shadow-lg">
-                <img src={logo} className="w-20 h-12 rounded-full mr-3" alt="Dirt Dogs Logo" />
+                {/* Replace with your actual logo */}
+                <img src={logo} className="w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center" alt="Dirt Dogs Logo" />
               </div>
               <div className="hidden sm:block">
                 <h1 className="text-lg sm:text-xl font-bold text-gray-800">Dirt Dogs</h1>
@@ -205,30 +218,30 @@ const Navbar = () => {
           <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8">
             {navLinks.map((link) =>
               link.dropdown ? (
-                <div key={link.name} className="relative group ">
+                <div key={link.name} className="relative group">
                   <NavLink
                     to={link.path}
-                    className="flex items-center gap-1 px-2 sm:px-3 py-2 font-mono font-bold text-black  hover:text-red-600 rounded-lg transition-all duration-200 relative group"
+                    className="flex items-center gap-1 px-3 py-2 font-mono font-bold text-black hover:text-red-600 rounded-lg transition-all duration-200 relative group"
                   >
                     {link.name}
                     <svg
-                      className="w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-200 group-hover:rotate-180"
+                      className="w-4 h-4 transition-transform duration-200 group-hover:rotate-180"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
                       <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                     </svg>
-                    <span className="absolute inset-x-0 bottom-0 h-0.5  transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200"></span>
+                    <span className="absolute inset-x-0 bottom-0 h-0.5 bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200"></span>
                   </NavLink>
 
-                  {/* Dropdown Menu */}
-                  <div className="absolute right-0 top-full mt-2 w-60 sm:w-64 bg-white border border-gray-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                    <div className="py-2 sm:py-3">
+                  {/* Desktop Dropdown Menu - Fixed positioning */}
+                  <div className="absolute left-0 top-full mt-2 w-64 bg-white border border-gray-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                    <div className="py-3 max-h-96 overflow-y-auto">
                       {serviceLinks.map((service, index) => (
                         <NavLink
                           key={service.name}
                           to={service.path}
-                          className="block px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 rounded transition-colors duration-200 border-l-3 border-transparent hover:border-red-500"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors duration-200 border-l-3 border-transparent hover:border-red-500"
                           onClick={() => setMenuOpen(false)}
                           style={{ animationDelay: `${index * 30}ms` }}
                         >
@@ -243,11 +256,12 @@ const Navbar = () => {
                   key={link.name}
                   to={link.path}
                   className={({ isActive }) =>
-                    `px-2 sm:px-3 py-2 text-l font-bold font-mono text-gray-950  hover:tex-white rounded-lg transition-all duration-200 relative group`
+                    `px-3 py-2 text-lg font-bold font-mono text-gray-950 hover:text-red-600 rounded-lg transition-all duration-200 relative group ${isActive ? 'text-red-600' : ''
+                    }`
                   }
                 >
                   {link.name}
-                  <span className="absolute inset-x-0 bottom-0 h-0.5 bg-red-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200"></span>
+                  <span className="absolute inset-x-0 bottom-0 h-0.5 bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200"></span>
                 </NavLink>
               )
             )}
@@ -258,48 +272,67 @@ const Navbar = () => {
             {/* Profile Icon */}
             <Link
               to="/login"
-              className="relative group p-1.5 sm:p-2 bg-gray-100 hover:bg-red-50 rounded-full transition-all duration-300 hover:shadow-lg"
+              className="relative group p-2 bg-gray-100 hover:bg-red-50 rounded-full transition-all duration-300 hover:shadow-lg"
             >
               <User
                 size={18}
                 className="text-gray-600 group-hover:text-red-600 transition-colors duration-200 sm:w-5 sm:h-5"
               />
-              <div className="absolute -bottom-1 -right-1 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-red-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+              <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-red-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
             </Link>
 
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="lg:hidden p-1.5 sm:p-2 text-gray-700 hover:text-red-600 hover:bg-gray-100 rounded-lg transition-all duration-200"
+              className="lg:hidden p-2 text-gray-700 hover:text-red-600 hover:bg-gray-100 rounded-lg transition-all duration-200 z-50"
               aria-label="Toggle menu"
             >
-              {menuOpen ? <X size={20} className="sm:w-6 sm:h-6" /> : <Menu size={20} className="sm:w-6 sm:h-6" />}
+              {menuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation - Fixed overlay positioning */}
       <div
-        className={`lg:hidden bg-white border-t border-gray-200 shadow-lg transition-all duration-300 ease-in-out ${menuOpen
+        className={`lg:hidden fixed inset-x-0 top-full bg-white border-t border-gray-200 shadow-lg transition-all duration-300 ease-in-out mobile-menu-container z-40 ${menuOpen
           ? 'max-h-screen opacity-100 visible'
           : 'max-h-0 opacity-0 invisible overflow-hidden'
           }`}
       >
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-4 space-y-1">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-4 space-y-1 max-h-96 overflow-y-auto">
           {navLinks.map((link) =>
             link.dropdown ? (
               <div key={link.name} className="space-y-1">
-                <div className="px-3 sm:px-4 py-2 sm:py-3 text-sm font-semibold text-gray-900 bg-gray-50 rounded-lg">
+                <button
+                  onClick={() => setServicesOpen(!servicesOpen)}
+                  className="w-full text-left px-4 py-3 text-sm font-semibold text-gray-900 bg-gray-50 rounded-lg flex items-center justify-between"
+                >
                   {link.name}
-                </div>
-                <div className="pl-4 sm:pl-6 space-y-1">
+                  <svg
+                    className={`w-4 h-4 transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''
+                      }`}
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </button>
+
+                {/* Mobile Services Dropdown */}
+                <div
+                  className={`pl-4 space-y-1 transition-all duration-300 overflow-hidden ${servicesOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                    }`}
+                >
                   {serviceLinks.map((service) => (
                     <NavLink
                       key={service.name}
                       to={service.path}
-                      className="block px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
-                      onClick={() => setMenuOpen(false)}
+                      className="block px-4 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
+                      onClick={() => {
+                        setMenuOpen(false);
+                        setServicesOpen(false);
+                      }}
                     >
                       {service.name}
                     </NavLink>
@@ -311,7 +344,7 @@ const Navbar = () => {
                 key={link.name}
                 to={link.path}
                 className={({ isActive }) =>
-                  `block px-3 sm:px-4 py-2 sm:py-3 text-sm font-medium rounded-lg transition-colors duration-200 ${isActive
+                  `block px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 ${isActive
                     ? "text-red-600 bg-red-50 border-l-4 border-red-500"
                     : "text-gray-700 hover:text-red-600 hover:bg-gray-50"
                   }`
@@ -324,6 +357,14 @@ const Navbar = () => {
           )}
         </nav>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      {menuOpen && (
+        <div
+          className="lg:hidden fixed inset-0 bg-black/20 z-30"
+          onClick={() => setMenuOpen(false)}
+        />
+      )}
     </header>
   );
 };
