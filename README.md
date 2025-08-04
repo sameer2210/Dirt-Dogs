@@ -4,13 +4,13 @@ src/
 ├── store/
 │   └── store.js                     # Registers both productReducer and userReducer
 ├── features/
-│   ├── product/
+│   ├── servicesProvide/
 │   │   ├── api/
-│   │   │   └── productAPI.js        # Axios functions for product-related backend calls
+│   │   │   └── servicesAPI.js        # Axios functions for services-related backend calls
 │   │   ├── actions/
-│   │   │   └── productThunks.js     # createAsyncThunk-based async actions for products
+│   │   │   └── servicesThunks.js     # createAsyncThunk-based async actions for products
 │   │   ├── reducers/
-│   │   │   └── productReducer.js    # Redux slice for product with initialState, reducers
+│   │   │   └── servicesReducer.js    # Redux slice for services with initialState, reducers
 │   │   └── index.js                 # Re-exports productReducer and productThunks/actions
 │   └── user/
 │       ├── api/
