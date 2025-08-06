@@ -7,7 +7,7 @@ import React from "react";
 const Footer = () => {
   return (
     <footer className="bg-black text-white text-sm mt-16 flex flex-col items-center">
-      <div className="bg-red-600 text-white text-center w-[90vw] py-12 text-sm font-semibold uppercase tracking-wide">
+      <div className=" text-center w-[90vw] py-12 text-sm font-semibold uppercase tracking-wide">
         Veteran owned • Licensed & insured • Estimates are always free
       </div>
       <div className=" pt-8 pb-4 px-4 md:px-16">
